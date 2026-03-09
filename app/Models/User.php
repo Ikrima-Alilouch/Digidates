@@ -21,6 +21,17 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'country',
+        'gender',
+        'location',
+        'birthdate',
+        'biography',
+        'profile_photo',
+        'banned',
+        'role',
     ];
 
     /**
@@ -44,5 +55,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'user_tags');
     }
 }
