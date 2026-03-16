@@ -12,6 +12,8 @@
         @if (Route::has('login'))
             <nav class="flex items-center gap-3 text-xs font-medium">
                 @auth
+                    <a href="{{ route('profiles.index') }}" class="text-slate-200 hover:text-white transition">Ontdek</a>
+                    <a href="{{ route('profiles.edit') }}" class="text-slate-200 hover:text-white transition">Profiel</a>
                
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf

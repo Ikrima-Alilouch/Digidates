@@ -102,7 +102,7 @@
                             <div class="flex flex-col items-center justify-center py-6">
                                 <svg class="h-20 w-20 mb-4 text-rose-400" fill="none" viewBox="0 0 48 48">
                                     <circle cx="24" cy="24" r="24" fill="currentColor" fill-opacity="0.13"/>
-                                    <text x="24" y="32" text-anchor="middle" font-size="28" dy="0.3em" fill="currentColor" fill-opacity="0.7">♥</text>
+                                    <text x="24" y="24" text-anchor="middle" font-size="28" dy="0.3em" fill="currentColor" fill-opacity="0.7">♥</text>
                                 </svg>
                                 <p class="text-center text-base font-semibold text-rose-100 mb-2">Bekijk profielen, ontmoet nieuwe mensen en vind een match!</p>
                                 <ul class="mb-4 text-xs text-slate-200/80 space-y-1">

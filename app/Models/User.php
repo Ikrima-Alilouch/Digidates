@@ -32,6 +32,9 @@ class User extends Authenticatable
         'profile_photo',
         'banned',
         'role',
+        'photo_visible',
+        'interests_visible',
+        'bio_visible',
     ];
 
     /**

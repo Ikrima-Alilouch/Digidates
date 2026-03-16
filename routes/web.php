@@ -31,5 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
+
+    // Profile Routes
+    Route::get('/profiles', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profiles.index');
+    Route::get('/profile/edit', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profiles.edit');
+    Route::put('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profiles.update');
+    Route::get('/profile/{id}/photo', [\App\Http\Controllers\ProfileController::class, 'photo'])->name('profiles.photo');
 });
 
