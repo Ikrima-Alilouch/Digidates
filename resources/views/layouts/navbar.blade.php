@@ -1,6 +1,6 @@
 <header class="border-b border-slate-800/80 bg-slate-950/70 backdrop-blur">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <a href="{{ auth()->check() ? (auth()->user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard')) : url('/') }}" class="flex items-center gap-2 text-sm font-semibold tracking-tight">
+        <a href="{{ auth()->check() ? (auth()->user()-> role === 'admin' ? route('admin.dashboard') : route('user.dashboard')) : url('/') }}" class="flex items-center gap-2 text-sm font-semibold tracking-tight">
             <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-rose-500/80 shadow-lg shadow-rose-900/40">
                 <span class="text-lg">♥</span>
             </span>
@@ -12,9 +12,15 @@
         @if (Route::has('login'))
             <nav class="flex items-center gap-3 text-xs font-medium">
                 @auth
-                    <a href="{{ route('profiles.index') }}" class="text-slate-200 hover:text-white transition">Ontdek</a>
-                    <a href="{{ route('profiles.edit') }}" class="text-slate-200 hover:text-white transition">Profiel</a>
-               
+                    @if(auth()->user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="text-slate-200 hover:text-white transition {{ request()->routeIs('admin.dashboard') ? 'text-rose-400 font-bold' : '' }}">Gebruikers</a>
+                        <a href="{{ route('admin.tags.index') }}" class="text-slate-200 hover:text-white transition {{ request()->routeIs('admin.tags.*') ? 'text-rose-400 font-bold' : '' }}">Tags</a>
+                    @else
+                        <a href="{{ route('profiles.index') }}" class="text-slate-200 hover:text-white transition {{ request()->routeIs('profiles.index') ? 'text-rose-400 font-bold' : '' }}">Ontdek</a>
+                        <a href="{{ route('chat.index') }}" class="text-slate-200 hover:text-white transition {{ request()->routeIs('chat.*') ? 'text-rose-400 font-bold' : '' }}">Inbox @if(auth()->user()->messagesReceived()->where('is_read', false)->count() > 0)<span class="ml-1 inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-rose-500 rounded-full">{{ auth()->user()->messagesReceived()->where('is_read', false)->count() }}</span>@endif</a>
+                        <a href="{{ route('profiles.edit') }}" class="text-slate-200 hover:text-white transition {{ request()->routeIs('profiles.edit') ? 'text-rose-400 font-bold' : '' }}">Profiel</a>
+                    @endif
+
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
                         <button

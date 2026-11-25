@@ -1,4 +1,4 @@
-<div class="flex flex-col overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-900/70 shadow-xl transition-transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-rose-900/20">
+<a href="{{ route('profiles.show', $user->id) }}" class="block flex flex-col overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-900/70 shadow-xl transition-transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-rose-900/20">
     {{-- Photo --}}
     <div class="relative h-48 w-full bg-slate-800">
         @if($user->photo_visible && $user->profile_photo)
@@ -8,13 +8,6 @@
         @else
             <img src="https://ui-avatars.com/api/?name={{ urlencode($user->first_name ?? $user->name) }}&background=1e293b&color=fda4af&size=400" 
                  alt="Standaard Profielfoto" class="h-full w-full object-cover">
-        @endif
-        
-        {{-- Overlap Badge --}}
-        @if(isset($user->overlap_score) && $user->overlap_score > 0)
-            <div class="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-rose-500/90 px-2 py-1 text-xs font-bold text-white shadow-sm backdrop-blur">
-                <span class="text-[10px]">♥</span> {{ $user->overlap_score }} Match
-            </div>
         @endif
     </div>
 
@@ -67,4 +60,4 @@
             @endif
         </div>
     </div>
-</div>
+</a>

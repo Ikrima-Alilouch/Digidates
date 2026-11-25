@@ -86,7 +86,7 @@ class AuthController extends Controller
         ]);
 
         /** @var User|null $user */
-        $user = User::where('email', $validated['email'])->first();
+        $user = User::withTrashed()->where('email', $validated['email'])->first();
 
         if (! $user || ! Hash::check($validated['password'], $user->password)) {
             Log::warning('Login mislukte (ongeldige credentials)', ['email' => $validated['email']]);
@@ -96,7 +96,7 @@ class AuthController extends Controller
                 ->onlyInput('email');
         }
 
-        if ($user->banned) {
+        if ($user->trashed()) {
             Log::warning('Geblokkeerde gebruiker probeerde in te loggen', ['user_id' => $user->id]);
 
             return back()
@@ -137,7 +137,7 @@ class AuthController extends Controller
         ]);
 
         /** @var User|null $user */
-        $user = User::where('email', $validated['email'])->first();
+        $user = User::withTrashed()->where('email', $validated['email'])->first();
 
         // Altijd zelfde melding om niet te lekken of het e-mailadres bestaat
         $genericMessage = 'Als dit e-mailadres bij ons bekend is, ontvangt u een e-mail met een resetlink.';
@@ -146,7 +146,7 @@ class AuthController extends Controller
             return back()->with('status', $genericMessage);
         }
 
-        if ($user->banned) {
+        if ($user->trashed()) {
             return back()->with('status', $genericMessage);
         }
 
@@ -207,7 +207,7 @@ class AuthController extends Controller
         }
 
         /** @var User|null $user */
-        $user = User::find($record->user_id);
+        $user = User::withTrashed()->find($record->user_id);
 
         if (! $user) {
             return back()
@@ -215,7 +215,7 @@ class AuthController extends Controller
                 ->withInput();
         }
 
-        if ($user->banned) {
+        if ($user->trashed()) {
             return back()
                 ->withErrors(['token' => 'Dit account is geblokkeerd. Neem contact op met de administrator.'])
                 ->withInput();

@@ -21,7 +21,7 @@
                 Terug naar Profielen
             </a>
         </section>
-    
+
         @if(session('success'))
             <div class="rounded-xl bg-emerald-500/20 p-4 border border-emerald-500/40 text-emerald-200 text-sm">
                 {{ session('success') }}
@@ -37,14 +37,14 @@
                 <!-- Foto Upload -->
                 <div class="rounded-2xl border border-slate-800/80 bg-slate-900/70 p-6">
                     <h2 class="font-semibold text-rose-100 mb-4">Profielfoto</h2>
-                    
+
                     <div class="mb-4">
                         @if($user->profile_photo)
-                            <img src="{{ route('profiles.photo', $user->id) }}" 
+                            <img src="{{ route('profiles.photo', $user->id) }}"
                                  onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ urlencode($user->first_name ?? $user->name) }}&background=1e293b&color=fda4af&size=200';"
                                  alt="Jouw foto" class="h-32 w-32 object-cover rounded-full border-4 border-slate-800 mx-auto">
                         @else
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode($user->first_name ?? $user->name) }}&background=1e293b&color=fda4af&size=200" 
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode($user->first_name ?? $user->name) }}&background=1e293b&color=fda4af&size=200"
                                  alt="Standaard Profielfoto" class="h-32 w-32 object-cover rounded-full border-4 border-slate-800 mx-auto">
                         @endif
                     </div>
@@ -100,7 +100,7 @@
                     </div>
 
                     <div class="mt-4">
-                        <label class="block text-xs font-medium text-slate-300 mb-1">Bioscoop / Biografie</label>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Biografie</label>
                         <textarea name="biography" rows="4" class="w-full rounded-xl border border-slate-700 bg-slate-800/50 px-3 py-2 text-sm text-slate-100 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500">{{ old('biography', $user->biography) }}</textarea>
                     </div>
                 </div>
@@ -111,9 +111,24 @@
                     <p class="text-xs text-slate-400 mb-4">
                         Voeg interesses toe (gescheiden door komma's) om de matching te verbeteren. Bijv: reizen, sport, muziek.
                     </p>
-                    
-                    <div>
-                        <input type="text" name="tags" value="{{ old('tags', implode(',', $userTags)) }}" placeholder="Eten, Wandelen, Gamen, ..." class="w-full rounded-xl border border-slate-700 bg-slate-800/50 px-3 py-2 text-sm text-slate-100 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500">
+
+                    <div class="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto rounded-xl border border-slate-700 bg-slate-800/50 p-3">
+                        @forelse ($allTags as $tag)
+                            <label class="inline-flex items-center gap-2 text-sm text-slate-200 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    name="tags[]"
+                                    value="{{ $tag->id }}"
+                                    class="h-4 w-4 rounded border-slate-600 bg-slate-900 text-rose-500 focus:ring-rose-500"
+                                    {{ in_array($tag->id, old('tags', $userTags)) ? 'checked' : '' }}
+                                >
+                                <span>{{ $tag->name }}</span>
+                            </label>
+                        @empty
+                            <p class="col-span-2 text-xs text-slate-400 italic">
+                                Er zijn nog geen tags aangemaakt door de admin.
+                            </p>
+                        @endforelse
                     </div>
                 </div>
 
